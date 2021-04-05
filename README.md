@@ -61,3 +61,11 @@
 ### Шаг 6
 
 Profit
+
+---
+
+P.S. Имя файла по умолчанию дата и время, но можно дать и свое
+Пример:
+```java
+    generator.setNameOfFile(params.get("idNumber"));
+```
