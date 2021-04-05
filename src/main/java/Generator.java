@@ -14,6 +14,12 @@ public class Generator {
 
     private Map<String, String> params;
     private File templateFile;
+    private String nameOfFile = LocalDateTime.now().getDayOfMonth() + "_" +
+            LocalDateTime.now().getMonthValue() + "_" +
+            LocalDateTime.now().getYear() + "_" +
+            LocalDateTime.now().getHour() + "_" +
+            LocalDateTime.now().getMinute() + "_" +
+            LocalDateTime.now().getSecond();
 
     public Generator(String path, Map<String, String> params) {
         templateFile = new File(path);
@@ -32,18 +38,20 @@ public class Generator {
         this.params = params;
     }
 
-    public Map<String,String> getParams() {
+    public Map<String, String> getParams() {
         return this.params;
     }
 
+    public void setNameOfFile(String name) {
+        nameOfFile = name;
+    }
+
+    public String getNameOfFile() {
+        return this.nameOfFile;
+    }
+
     public File write() throws Exception {
-        String name = templateFile.getName() + "_" +
-                                           LocalDateTime.now().getDayOfMonth() + "_" +
-                                           LocalDateTime.now().getMonthValue() + "_" +
-                                           LocalDateTime.now().getYear() + "_" +
-                                           LocalDateTime.now().getHour() + "_" +
-                                           LocalDateTime.now().getMinute() + "_" +
-                                           LocalDateTime.now().getSecond()+ ".docx";
+        String name = nameOfFile + ".docx";
         XWPFDocument result = generate(templateFile.getAbsolutePath());
         result.write(new FileOutputStream(name));
         System.out.println("Complete");
@@ -55,13 +63,13 @@ public class Generator {
         for (XWPFParagraph paragraph : document.getParagraphs()) {
             for (XWPFRun run : paragraph.getRuns()) {
                 String text = run.getText(0);
-                if(text != null) {
+                if (text != null) {
                     if (params.get(text) != null) {
                         List<String> values = new ArrayList<>(params.keySet());
                         for (String value : values) {
                             if (text.equals(value)) {
                                 text = text.replace(value, params.get(value));
-                                run.setText(text,0);
+                                run.setText(text, 0);
                             }
                         }
                     }
