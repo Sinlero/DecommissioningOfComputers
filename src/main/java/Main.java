@@ -16,7 +16,6 @@ public class Main {
         params.put("idThirdNamePadeg", "А.С. Матевосян");
 
         Generator generator = new Generator("Template.docx", params);
-        generator.setParams(params);
         try {
             generator.write();
         } catch (Exception e) {
